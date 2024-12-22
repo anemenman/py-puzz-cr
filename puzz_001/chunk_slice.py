@@ -69,9 +69,7 @@ def copy_pow_first_two_chunk(chunks, pow_value):
     if len(chunks_result) < 2:
         i = len(chunks_result)
     for j in range(i):
-        print(chunks_result[j])
         chunks_result[j] = [pow(k, pow_value) for k in chunks_result[j]]
-        print(chunks_result[j])
 
     return chunks_result
 
