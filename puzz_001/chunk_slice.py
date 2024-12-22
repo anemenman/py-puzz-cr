@@ -37,6 +37,7 @@ chunk_res = chunk(numbers2, 3)
 print(chunk_res)
 
 chunk_res2 = chunk_slice(numbers2, 3)
+print("--->chunk_res2")
 print(chunk_res2)
 
 
@@ -62,6 +63,19 @@ def sq_first_two_chunk(chunks):
     return chunks
 
 
+def copy_pow_first_two_chunk(chunks, pow_value):
+    chunks_result = chunks.copy()
+    i = 2
+    if len(chunks_result) < 2:
+        i = len(chunks_result)
+    for j in range(i):
+        print(chunks_result[j])
+        chunks_result[j] = [pow(k, pow_value) for k in chunks_result[j]]
+        print(chunks_result[j])
+
+    return chunks_result
+
+
 def merge_chunks(chunks):
     res = []
     for chunk1 in chunks:
@@ -74,3 +88,12 @@ chunk_res3 = sq_first_two_chunk(chunk_res2)
 print(chunk_res3)
 res3 = merge_chunks(chunk_res3)
 print(res3)
+
+chunk_res_pow_1_2 = copy_pow_first_two_chunk(chunk_res2, 1 / 2)
+chunk_res_pow_1_3 = copy_pow_first_two_chunk(chunk_res2, 1 / 3)
+
+print("--->1/2")
+print(chunk_res_pow_1_2)
+
+print("--->1/3")
+print(chunk_res_pow_1_3)
