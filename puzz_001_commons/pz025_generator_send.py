@@ -7,6 +7,7 @@
 
 
 def gen_function(n):
+    value = 0
     while n > 0:
         print("Before")
         value = yield n
