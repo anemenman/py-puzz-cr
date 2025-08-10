@@ -1,9 +1,12 @@
-"""
-PEP 378: Format Specifier for Thousands Separator
-"""
 import sys
 import unittest
 from decimal import Decimal
+
+"""Python 3.1, June 26, 2009"""
+
+"""
+PEP 378: Format Specifier for Thousands Separator
+"""
 
 print(format(1234567, ',d'))
 print(format(1234567.89, ',.2f'))
