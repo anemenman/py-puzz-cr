@@ -3,6 +3,8 @@ import collections
 import concurrent
 import math
 import shutil
+from datetime import datetime, timezone
+from itertools import accumulate
 
 """Python 3.2, 20 February 2011"""
 
@@ -59,3 +61,18 @@ The count method for the range object returns the number of times the number
 specified in the argument occurs in the sequence.
 """
 print(range(0, 100, 2).count(98))
+
+"""accumulate"""
+prob_dist = [0.1, 0.4, 0.2, 0.3]
+print(list(accumulate(prob_dist)))  # [0.1, 0.5, 0.7, 1.0]
+
+"""deque"""
+d = collections.deque('simsalabim')
+print(d)
+print(d.count('s'))
+d.reverse()
+print(d)
+
+"""datetime and time"""
+print(datetime.now(timezone.utc))
+print(datetime.now())
