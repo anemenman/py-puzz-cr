@@ -3,6 +3,7 @@ import collections
 import concurrent
 import math
 import shutil
+import sysconfig
 from datetime import datetime, timezone
 from itertools import accumulate
 
@@ -76,3 +77,10 @@ print(d)
 """datetime and time"""
 print(datetime.now(timezone.utc))
 print(datetime.now())
+
+"""sysconfig"""
+print('---------sysconfig-----------')
+print(sysconfig.get_platform())
+print(sysconfig.get_python_version())
+print(sysconfig.get_paths())
+print(sysconfig.get_config_vars())
