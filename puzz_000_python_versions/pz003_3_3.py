@@ -23,6 +23,9 @@ Security improvements:
 
 Hash randomization is switched on by default.
 """
+import gc
+from math import pi
+
 print("Python 3.3.0")
 
 """PEP 405 - Python Virtual Environments
@@ -33,3 +36,17 @@ This PEP adds the venv module for programmatic access, and the pyvenv script for
 """PEP 420: Namespace Packages
 
 Native support for package directories that don’t require __init__.py marker files and can automatically span multiple path segments"""
+
+"""PEP 3118: New memoryview implementation and buffer protocol documentation¶
+The maximum number of dimensions is officially limited to 64.
+"""
+
+print(pi)
+
+"""It is now possible to register callbacks invoked by the garbage collector before and after collection using the new callbacks list."""
+print(gc.get_stats())
+
+"""Optimizations
+Thanks to PEP 393, some operations on Unicode strings have been optimized
+UTF-8 is now 2x to 4x faster. UTF-16 encoding is now up to 10x faster.
+"""
