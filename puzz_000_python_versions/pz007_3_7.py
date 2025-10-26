@@ -1,5 +1,5 @@
 """
-3.6. Python 3.7 was released on June 27, 2018.
+Python 3.7 was released on June 27, 2018.
 
 New syntax features:
 
