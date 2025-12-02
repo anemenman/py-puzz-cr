@@ -28,3 +28,14 @@ print(yx)
 x |= y
 print(x)
 print(y)
+
+"""PEP 585 Type Hinting Generics in Standard Collections"""
+
+
+def greet_all(names: list[str]) -> None:
+    for name in names:
+        print("Hello", name)
+
+
+greet_all(['A', 'B'])
+greet_all([1, 2])
