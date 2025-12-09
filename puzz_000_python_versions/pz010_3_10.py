@@ -1,4 +1,5 @@
 """
+Python 3.10.0, released on 4 October 2021.
 Summary – Release highlights
 
 New syntax features:
