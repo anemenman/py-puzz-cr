@@ -1,6 +1,7 @@
 """
 Python 3.11.0, released on 24 October 2022
 """
+from typing import NotRequired, TypedDict, Required
 
 """
 Summary – Release highlights
@@ -36,3 +37,28 @@ PEP 670: Macros converted to static inline functions
 
 """PEP 654: Exception Groups and except*"""
 
+"""PEP 655: Marking individual TypedDict items as required or not-required"""
+
+# class Movie(TypedDict):
+#     title: str
+#     year: NotRequired[int]
+#
+#
+# m1: Movie = {"title": "Black Panther", "year": 2018}  # OK
+# m2: Movie = {"title": "Star Wars"}  # OK (year is not required)
+# m3: Movie = {"year": 2022}
+#
+#
+# class Movie2(TypedDict, total=False):
+#     title: Required[str]
+#     year: int
+
+"""PEP 673: Self type"""
+
+# class MyLock:
+#     def __enter__(self) -> Self:
+#         self.lock()
+#         return self
+
+"""PEP 675: Arbitrary literal string type"""
+# def run_query(sql: LiteralString) -> ...
