@@ -2,3 +2,4 @@ cachetools
 frozendict
 frozenlist
 gmpy2
+numpy
