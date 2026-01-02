@@ -16,6 +16,7 @@ and fib(n + 2)? Use this to reason what value fib has to have for negative value
 
 HINT II: See https://web.archive.org/web/20220614001843/https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-11.html#%_sec_1.2.4
 """
+import time
 
 
 def pow_matrix(x, n, i_matrix, mult):
@@ -62,6 +63,8 @@ def fib(n):
     return result
 
 
+start = time.time()
+
 assert fib(0) == 0
 assert fib(1) == 1
 assert fib(2) == 1
@@ -77,3 +80,5 @@ assert fib(
     -500) == -139423224561697880139724382870407283950070256587697307264108962948325571622863290691557658876222521294125
 assert fib(
     1000) == 43466557686937456435688527675040625802564660517371780402481729089536555417949051890403879840079255169295922593080322634775209689623239873322471161642996440906533187938298969649928516003704476137795166849228875
+
+print(time.time() - start)
