@@ -68,3 +68,26 @@ backslashes, and unicode escape sequences."""
 
 # f"{f"{f"{f"{f"{f"{1+1}"}"}"}"}"}"
 # '2'
+
+"""PEP 698: Override Decorator for Static Typing
+A new decorator typing.override() has been added to the typing module. It indicates to type checkers that the method is 
+intended to override a method in a superclass. This allows type checkers to catch mistakes where a method that is 
+intended to override something in a base class does not in fact do so."""
+# from typing import override
+#
+#
+# class Base:
+#     def get_color(self) -> str:
+#         return "blue"
+#
+#
+# class GoodChild(Base):
+#     @override  # ok: overrides Base.get_color
+#     def get_color(self) -> str:
+#         return "yellow"
+#
+#
+# class BadChild(Base):
+#     @override  # type checker error: does not override Base.get_color
+#     def get_colour(self) -> str:
+#         return "red"
