@@ -4,25 +4,24 @@ Prime Streaming (PG-13)
 Create an endless generator that yields prime numbers. the generator must be able to produce a million primes in a few
 seconds
 """
+import itertools
 
 
 class Primes:
     @staticmethod
     def stream():
+        yield 2
         D = {}
-        q = 2
-        while True:
-            if q not in D:
+        for q in itertools.count(3, step=2):
+            p = D.pop(q, None)
+            if not p:
+                D[q * q] = q
                 yield q
-                D[q * q] = [q]
-
             else:
-                for p in D[q]:
-                    D.setdefault(p + q, []).append(p)
-                del D[q]
-
-            print(D)
-            q += 1
+                x = q + p + p
+                while x in D:
+                    x += p + p
+                D[x] = p
 
 
 gen = Primes.stream()
