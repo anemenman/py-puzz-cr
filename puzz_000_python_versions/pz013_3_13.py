@@ -32,7 +32,7 @@ through the PYTHON_COLORS and NO_COLOR environment variables.
 """
 
 """
-Free-threaded CPython¶
+Free-threaded CPython
 CPython now has experimental support for running in a free-threaded mode, with the global interpreter lock (GIL) 
 disabled. 
 """
