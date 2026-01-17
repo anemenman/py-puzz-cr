@@ -30,3 +30,15 @@ Performance improvements are modest – we expect to improve this over the next 
 Color support in the new interactive interpreter, as well as in tracebacks and doctest output. This can be disabled 
 through the PYTHON_COLORS and NO_COLOR environment variables.
 """
+
+"""
+Free-threaded CPython¶
+CPython now has experimental support for running in a free-threaded mode, with the global interpreter lock (GIL) 
+disabled. 
+"""
+
+"""
+An experimental just-in-time (JIT) compiler
+When CPython is configured and built using the --enable-experimental-jit option, a just-in-time (JIT) compiler is added 
+which may speed up some Python programs. 
+"""
