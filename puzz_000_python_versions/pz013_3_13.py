@@ -42,3 +42,18 @@ An experimental just-in-time (JIT) compiler
 When CPython is configured and built using the --enable-experimental-jit option, a just-in-time (JIT) compiler is added 
 which may speed up some Python programs. 
 """
+
+"""
+Other Language Changes
+
+The compiler now strips common leading whitespace from every line in a docstring. This reduces the size of the bytecode 
+cache (such as .pyc files), with reductions in file size of around 5%, for example in sqlalchemy.orm.session from 
+SQLAlchemy 2.0. This change affects tools that use docstrings, such as doctest.
+
+Annotation scopes within class scopes can now contain lambdas and comprehensions. Comprehensions that are located 
+within class scopes are not inlined into their parent scope.
+
+class C[T]:
+    type Alias = lambda: T
+
+"""
