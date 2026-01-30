@@ -45,127 +45,41 @@ a separate highest hand is not applied here.
 The term Nothing corresponds to High Card in standard poker terminology.
 """
 
-from itertools import combinations, groupby
 
-RANK_ORDER = '23456789TJQKA'
-RANKS = {r: i for i, r in enumerate(RANK_ORDER, 2)}
-print(RANKS)
-REVERSE_RANKS = {i: r for r, i in RANKS.items()}
-print(REVERSE_RANKS)
-SUITS = '♠♣♥♦'
-
-
-def parse(card):
-    """Parses card string like 'A♠' to ('A', '♠')"""
-    return (card[:-1], card[-1])
-
-
-def hand(hole, community):
-    cards = [parse(c) for c in hole + community]
-    best = None
-    best_type = None
-    best_key = None
-    for cmb in combinations(cards, 5):
-        ttype, tkey = eval_hand(cmb)
-        if best is None or hand_rank(ttype, tkey) > hand_rank(best_type, best_key):
-            best_type = ttype
-            best_key = tkey
-    return best_type, [REVERSE_RANKS[k] for k in best_key]
-
-
-def eval_hand(cards):
-    # cards: list of 5 (rank, suit)
-    ranks = [RANKS[r] for r, s in cards]
-    suits = [s for r, s in cards]
-    counts = {r: ranks.count(r) for r in set(ranks)}
-    groups = sorted(((cnt, r) for r, cnt in counts.items()), reverse=True)  # by count, then by rank
-    ranks_sorted = sorted(ranks, reverse=True)
-    flush = False
-    straight = False
-    straight_high = None
-
-    # Check Flush
-    fsuits = [s for s in suits if suits.count(s) == 5]
-    if fsuits:
-        flush = True
-
-    # Check Straight
-    uniq_ranks = sorted(set(ranks), reverse=True)
-    if len(uniq_ranks) >= 5:
-        # Only allow A-high straight (T,J,Q,K,A)
-        if uniq_ranks == [14, 13, 12, 11, 10]:
-            straight = True
-            straight_high = 14
-        else:
-            for i in range(len(uniq_ranks) - 4):
-                window = uniq_ranks[i:i + 5]
-                if all(window[j] - 1 == window[j + 1] for j in range(4)):
-                    straight = True
-                    straight_high = window[0]
-                    break
-
-    # Check Straight Flush
-    if flush and straight:
-        # pick all same-suit cards and check straight there
-        for suit in SUITS:
-            suited = [RANKS[r] for r, s in cards if s == suit]
-            uniq_suited = sorted(set(suited), reverse=True)
-            if len(uniq_suited) >= 5:
-                if uniq_suited == [14, 13, 12, 11, 10]:
-                    return "straight-flush", [14]
-                for i in range(len(uniq_suited) - 4):
-                    wnd = uniq_suited[i:i + 5]
-                    if all(wnd[j] - 1 == wnd[j + 1] for j in range(4)):
-                        return "straight-flush", [wnd[0]]
-
-    # Four of a kind
-    if groups[0][0] == 4:
-        quad = groups[0][1]
-        kicker = max([k for k in ranks if k != quad])
-        return "four-of-a-kind", [quad, kicker]
-    # Full house
-    if groups[0][0] == 3 and groups[1][0] == 2:
-        return "full house", [groups[0][1], groups[1][1]]
-    # Flush
-    if flush:
-        f_suit = fsuits[0]
-        f_cards = [RANKS[r] for r, s in cards if s == f_suit]
-        top5 = sorted(f_cards, reverse=True)[:5]
-        return "flush", top5
-    # Straight
-    if straight:
-        return "straight", [straight_high]
-    # Three of a kind
-    if groups[0][0] == 3:
-        trips = groups[0][1]
-        kickers = sorted([k for k in ranks if k != trips], reverse=True)[:2]
-        return "three-of-a-kind", [trips] + kickers
-    # Two pair
-    if groups[0][0] == 2 and groups[1][0] == 2:
-        pair1 = max(groups[0][1], groups[1][1])
-        pair2 = min(groups[0][1], groups[1][1])
-        kicker = max([k for k in ranks if k != pair1 and k != pair2])
-        return "two pair", [pair1, pair2, kicker]
-    # Pair
-    if groups[0][0] == 2:
-        pair = groups[0][1]
-        kickers = sorted([k for k in ranks if k != pair], reverse=True)[:3]
-        return "pair", [pair] + kickers
-    # Nothing
-    return "nothing", ranks_sorted[:5]
+def hand(hole_cards, community_cards):
+    suits = '♥♦♣♠'
+    cards = {k: [0, ''] for k in (*'AKQJ', '10', *'98765432')}
+    for c in hole_cards + community_cards:
+        cards[c[:-1]][0] += 1
+        cards[c[:-1]][1] += c[-1]
+    for i in range((lk := len(keys := list(cards.keys()))) - 4):
+        s = [set(cards[keys[i + j]][1]) for j in range(5)]
+        if all(s) and len(s[0].intersection(*s[1:])) == 1:
+            return 'straight-flush', [keys[i + j] for j in range(5)]
+    same_ranks = lambda n, i: [c for _ in range(lk) if cards[(c := keys[_])][0] >= n and (not i or c not in i)]
+    other_ranks = lambda n, i: [c for _ in range(lk) if cards[(c := keys[_])][0] > 0 and c not in i][:n]
+    flush = lambda x: [c for _ in range(lk) if (s := cards[(c := keys[_])])[0] > 0 and x in s[1]][:5]
+    if f := same_ranks(4, []):
+        return 'four-of-a-kind', f + other_ranks(1, f)
+    if f := same_ranks(3, []):
+        if s := same_ranks(2, [f[0]]):
+            return 'full house', [f[0], s[0]]
+    for s in suits:
+        if len(f := flush(s)) >= 5:
+            return 'flush', f
+    for i in range((lk := len(keys)) - 4):
+        if all([cards[keys[i + j]][1] for j in range(5)]):
+            return 'straight', [keys[i + j] for j in range(5)]
+    if f := same_ranks(3, []):
+        return 'three-of-a-kind', f + other_ranks(2, f)
+    if f := same_ranks(2, []):
+        if s := same_ranks(2, [f[0]]):
+            return 'two pair', [f[0], s[0]] + other_ranks(1, [f[0], s[0]])
+    if f := same_ranks(2, []):
+        return 'pair', f + other_ranks(3, f)
+    return 'nothing', other_ranks(5, [])
 
 
-def hand_rank(ttype, tkey):
-    order = ['nothing', 'pair', 'two pair', 'three-of-a-kind', 'straight', 'flush',
-             'full house', 'four-of-a-kind', 'straight-flush']
-    return (order.index(ttype), tkey)
-
-
-# Примеры из задачи
-# r1 = hand(["A♠", "A♦"], ["J♣", "5♥", "10♥", "2♥", "3♦"])
-# r2 = hand(["A♠", "K♦"], ["J♥", "5♥", "10♥", "Q♥", "3♥"])
-
-print(hand(["K♠", "A♦"], ["J♣", "Q♥", "9♥", "2♥", "3♦"]))
 assert hand(["K♠", "A♦"], ["J♣", "Q♥", "9♥", "2♥", "3♦"]) == ("nothing", ["A", "K", "Q", "J", "9"])
 assert hand(["A♠", "2♦"], ["3♣", "4♥", "5♥", "7♥", "8♦"]) == ("nothing", ["A", "8", "7", "5", "4"])
 assert hand(["K♠", "Q♦"], ["J♣", "Q♥", "9♥", "2♥", "3♦"]) == ("pair", ["Q", "K", "J", "9"])
