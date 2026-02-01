@@ -10,3 +10,25 @@ The library changes include significantly improved capabilities for introspectio
 a new compression.zstd module, syntax highlighting in the REPL, as well as the usual deprecations and removals, and
 improvements in user-friendliness and correctness.
 """
+
+"""
+PEP 649 & PEP 749: Deferred evaluation of annotations
+The annotations on functions, classes, and modules are no longer evaluated eagerly. Instead, annotations are stored in 
+special-purpose annotate functions and evaluated only when necessary (except if from __future__ import annotations is 
+used).
+
+The new annotationlib module provides tools for inspecting deferred annotations. Annotations may be evaluated in the 
+VALUE format (which evaluates annotations to runtime values, similar to the behavior in earlier Python versions), the 
+FORWARDREF format (which replaces undefined names with special markers), and the STRING format (which returns 
+annotations as strings
+"""
+# from annotationlib import get_annotations, Format
+#
+#
+# def func(arg: Undefined):
+#     pass
+#
+#
+# get_annotations(func, format=Format.VALUE)  # NameError: name 'Undefined' is not defined
+# get_annotations(func, format=Format.FORWARDREF)
+# get_annotations(func, format=Format.STRING)
