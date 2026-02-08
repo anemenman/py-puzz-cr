@@ -32,3 +32,30 @@ annotations as strings
 # get_annotations(func, format=Format.VALUE)  # NameError: name 'Undefined' is not defined
 # get_annotations(func, format=Format.FORWARDREF)
 # get_annotations(func, format=Format.STRING)
+
+
+"""
+PEP 734: Multiple interpreters in the standard library
+The CPython runtime supports running multiple copies of Python in the same process simultaneously and has done so for 
+over 20 years. Each of these separate copies is called an ‘interpreter’. However, the feature had been available only 
+through the C-API.
+
+That limitation is removed in Python 3.14, with the new concurrent.interpreters module.
+
+There are at least two notable reasons why using multiple interpreters has significant benefits:
+
+they support a new (to Python), human-friendly concurrency model
+
+true multi-core parallelism
+
+Using multiple interpreters is similar in many ways to multiprocessing, in that they both provide isolated logical 
+“processes” that can run in parallel, with no sharing by default. However, when using multiple interpreters, an 
+application will use fewer system resources and will operate more efficiently (since it stays within the same process). 
+Think of multiple interpreters as having the isolation of processes with the efficiency of threads.
+
+While the feature has been around for decades, multiple interpreters have not been used widely, due to low awareness 
+and the lack of a standard library module. Consequently, they currently have several notable limitations, which will 
+improve significantly now that the feature is finally going mainstream.
+
+Also added in 3.14: concurrent.futures.InterpreterPoolExecutor.
+"""
