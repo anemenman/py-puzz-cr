@@ -59,3 +59,11 @@ improve significantly now that the feature is finally going mainstream.
 
 Also added in 3.14: concurrent.futures.InterpreterPoolExecutor.
 """
+
+"""
+PEP 750: Template string literals
+Template strings are a new mechanism for custom string processing. They share the familiar syntax of f-strings but, 
+unlike f-strings, return an object representing the static and interpolated parts of the string, 
+instead of a simple str.
+"""
+
