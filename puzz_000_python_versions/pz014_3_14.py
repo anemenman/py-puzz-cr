@@ -67,3 +67,10 @@ unlike f-strings, return an object representing the static and interpolated part
 instead of a simple str.
 """
 
+# name = 'Wenslydale'
+# template = t'Mister {name}'
+# assert lower_upper(template) == 'mister WENSLYDALE'
+
+# attributes = {'src': 'limburger.jpg', 'alt': 'lovely cheese'}
+# template = t'<img {attributes}>'
+# assert html(template) == '<img src="limburger.jpg" alt="lovely cheese" />'
