@@ -74,3 +74,19 @@ instead of a simple str.
 # attributes = {'src': 'limburger.jpg', 'alt': 'lovely cheese'}
 # template = t'<img {attributes}>'
 # assert html(template) == '<img src="limburger.jpg" alt="lovely cheese" />'
+
+"""
+A new type of interpreter
+A new type of interpreter has been added to CPython. It uses tail calls between small C functions that implement 
+individual Python opcodes, rather than one large C case statement. For certain newer compilers, this interpreter 
+provides significantly better performance. Preliminary benchmarks suggest a geometric mean of 3-5% faster on the 
+standard pyperformance benchmark suite, depending on platform and architecture. The baseline is Python 3.14 built with 
+Clang 19, without this new interpreter.
+
+This interpreter currently only works with Clang 19 and newer on x86-64 and AArch64 architectures. However, a future 
+release of GCC is expected will support this as well.
+
+This feature is opt-in for now. Enabling profile-guided optimization is highly recommendeded when using the new 
+interpreter as it is the only configuration that has been tested and validated for improved performance. For further 
+information, see --with-tail-call-interp.
+"""
