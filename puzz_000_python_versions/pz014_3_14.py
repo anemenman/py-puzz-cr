@@ -90,3 +90,9 @@ This feature is opt-in for now. Enabling profile-guided optimization is highly r
 interpreter as it is the only configuration that has been tested and validated for improved performance. For further 
 information, see --with-tail-call-interp.
 """
+
+"""
+PEP 784: Zstandard support in the standard library
+The new compression package contains modules compression.lzma, compression.bz2, compression.gzip and compression.zlib 
+which re-export the lzma, bz2, gzip and zlib modules respectively.
+"""
