@@ -96,3 +96,11 @@ PEP 784: Zstandard support in the standard library
 The new compression package contains modules compression.lzma, compression.bz2, compression.gzip and compression.zlib 
 which re-export the lzma, bz2, gzip and zlib modules respectively.
 """
+
+"""
+PEP 758: Allow except and except* expressions without brackets
+"""
+# try:
+#     connect_to_server()
+# except TimeoutError, ConnectionRefusedError:
+#     print('The network has ceased to be!')
