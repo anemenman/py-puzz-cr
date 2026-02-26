@@ -31,7 +31,7 @@ import heapq
 
 
 def three_dots(map_str):
-    # 1. Быстрый парсинг в одномерный массив
+    # 1. Fast parsing into a one-dimensional array
     lines = [l.strip() for l in map_str.strip().split('\n') if '|' in l]
     grid = "".join(l[1:l.rfind('|')] for l in lines)
     rows, cols = len(lines), len(grid) // len(lines)
@@ -41,8 +41,8 @@ def three_dots(map_str):
     starts = tuple(grid.find(c) for c in "RGY")
     targets = tuple(grid.find(c) for c in "rgy")
 
-    # 2. Предварительный расчет идеальных расстояний (BFS от целей)
-    # Это позволит эвристике быть абсолютно точной
+    # 2. Preliminary calculation of ideal distances (BFS from targets)
+    # This will allow the heuristic to be absolutely accurate.
     dist_maps = []
     for target_idx in targets:
         d_map = [1000] * size
@@ -63,8 +63,8 @@ def three_dots(map_str):
                         q.append(ni)
         dist_maps.append(d_map)
 
-    # 3. Алгоритм A*
-    # Упаковываем состояние в один int для мгновенного сравнения
+    # 3. Algorithm A*
+    # Packing the state into a single int for instant comparison
     def pack(p):
         return (p[0] << 20) | (p[1] << 10) | p[2]
 
@@ -72,7 +72,7 @@ def three_dots(map_str):
     target_packed = pack(targets)
 
     # (f_score, g_score, packed_pos, path)
-    # f_score = g_score + h (сумма расстояний всех точек)
+    # f_score = g_score + h (the sum of the distances of all points)
     h_start = sum(dist_maps[i][starts[i]] for i in range(3))
     queue = [(h_start, 0, start_packed, "")]
     visited = {start_packed: 0}
@@ -88,7 +88,7 @@ def three_dots(map_str):
         if g > visited.get(curr_packed, 1000):
             continue
 
-        # Распаковка
+        # Unpacking
         p1, p2, p3 = curr_packed >> 20, (curr_packed >> 10) & 1023, curr_packed & 1023
         curr_pos = (p1, p2, p3)
 
@@ -96,7 +96,7 @@ def three_dots(map_str):
             nxt = []
             for i in range(3):
                 p = curr_pos[i]
-                # Проверка границ для колонок
+                # Checking the boundaries of columns
                 if offset == -1 and p % cols == 0:
                     nxt.append(p)
                 elif offset == 1 and p % cols == cols - 1:
