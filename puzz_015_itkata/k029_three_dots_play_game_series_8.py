@@ -50,7 +50,7 @@ def three_dots(map_str):
         q = [target_idx]
         head = 0
         while head < len(q):
-            curr = q[head];
+            curr = q[head]
             head += 1
             r, c = curr // cols, curr % cols
             d = d_map[curr]
