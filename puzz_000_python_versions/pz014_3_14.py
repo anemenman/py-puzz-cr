@@ -110,3 +110,18 @@ PEP 765: Control flow in finally blocks
 The compiler now emits a SyntaxWarning when a return, break, or continue statement have the effect of leaving a finally 
 block.
 """
+
+"""
+Incremental garbage collection
+The cycle garbage collector is now incremental. This means that maximum pause times are reduced by an order of magnitude 
+or more for larger heaps.
+There are now only two generations: young and old. When gc.collect() is not called directly, the GC is invoked a little 
+less frequently. When invoked, it collects the young generation and an increment of the old generation, instead of 
+collecting one or more generations.
+
+The behavior of gc.collect() changes slightly:
+
+gc.collect(1): Performs an increment of garbage collection, rather than collecting generation 1.
+
+Other calls to gc.collect() are unchanged.
+"""
