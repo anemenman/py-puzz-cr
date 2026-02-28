@@ -104,3 +104,9 @@ PEP 758: Allow except and except* expressions without brackets
 #     connect_to_server()
 # except TimeoutError, ConnectionRefusedError:
 #     print('The network has ceased to be!')
+
+"""
+PEP 765: Control flow in finally blocks
+The compiler now emits a SyntaxWarning when a return, break, or continue statement have the effect of leaving a finally 
+block.
+"""
