@@ -125,3 +125,11 @@ gc.collect(1): Performs an increment of garbage collection, rather than collecti
 
 Other calls to gc.collect() are unchanged.
 """
+
+"""
+Default interactive shell
+
+The default interactive shell now highlights Python syntax. The feature is enabled by default, save if 
+PYTHON_BASIC_REPL or any other environment variable that disables colour is set. See Controlling color for details.
+he default interactive shell now supports import auto-completion.
+"""
