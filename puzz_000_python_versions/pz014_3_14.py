@@ -133,3 +133,20 @@ The default interactive shell now highlights Python syntax. The feature is enabl
 PYTHON_BASIC_REPL or any other environment variable that disables colour is set. See Controlling color for details.
 he default interactive shell now supports import auto-completion.
 """
+
+"""
+New modules
+annotationlib: For introspecting annotations. See PEP 749 for more details. (Contributed by Jelle Zijlstra in 
+gh-119180.)
+
+compression (including compression.zstd): A package for compression-related modules, including a new module to support 
+the Zstandard compression format. See PEP 784 for more details. (Contributed by Emma Harper Smith, Adam Turner, 
+Gregory P. Smith, Tomas Roun, Victor Stinner, and Rogdham in gh-132983.)
+
+concurrent.interpreters: Support for multiple interpreters in the standard library. See PEP 734 for more details. 
+(Contributed by Eric Snow in gh-134939.)
+
+string.templatelib: Support for template string literals (t-strings). See PEP 750 for more details. (Contributed 
+by Jim Baker, Guido van Rossum, Paul Everitt, Koudai Aono, Lysandros Nikolaou, Dave Peck, Adam Turner, Jelle Zijlstra, 
+Bénédikt Tran, and Pablo Galindo Salgado in gh-132661.)
+"""
