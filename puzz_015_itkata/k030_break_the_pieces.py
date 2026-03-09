@@ -56,7 +56,6 @@ the strings in the vector, separated with sep
 
 std::vector<std::string> split_lines(const std::string &to_split); // Splits a string, using separator '\n'
 """
-MOVES = [(i, j) for i in (-1, 0, 1) for j in (-1, 0, 1) if i or j]
 
 
 def break_pieces(shape):
@@ -64,20 +63,22 @@ def break_pieces(shape):
     empties, pieces = set(), []
     for i, row in enumerate(shape):
         for j, x in enumerate(row):
-            if x == " ": empties.add((i, j))
+            if x == " ":
+                empties.add((i, j))
+    dr = [(i, j) for i in (-1, 0, 1) for j in (-1, 0, 1) if i or j]
     while empties:
         start = empties.pop()
         queue, area = [start], {start}
         borders, outside = set(), False
         while queue:
             x, y = queue.pop(0)
-            for dx, dy in MOVES:
+            for dx, dy in dr:
                 tx, ty = x + dx, y + dy
                 if tx < 0 or tx >= len(shape):
-                    outside = True;
+                    outside = True
                     continue
                 if ty < 0 or ty >= len(shape[tx]):
-                    outside = True;
+                    outside = True
                     continue
                 if (tx, ty) in area: continue
                 if (tx, ty) in empties:
@@ -87,11 +88,11 @@ def break_pieces(shape):
                     borders.add((tx, ty))
         empties -= area
         if not outside:
-            pieces.append(build_piece(borders, shape))
+            pieces.append(extract_piece(borders, shape))
     return pieces
 
 
-def build_piece(borders, shape):
+def extract_piece(borders, shape):
     min_x = min(x for x, y in borders)
     max_x = max(x for x, y in borders)
     min_y = min(y for x, y in borders)
