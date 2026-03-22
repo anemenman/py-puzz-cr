@@ -171,4 +171,32 @@ def change_detection(cls):
 print("Ok")
 
 
+class U:
+    def __init__(self, x=0):
+        self.x = x.x if isinstance(self, x.__class__) else x
 
+    def f(self, y):
+        return self.x + y
+
+
+@change_detection
+class Struct:
+    x = 42
+    no = None
+
+    def __init__(self, y=0):
+        self.y = y
+        self.u = U(4)
+        self.uuu = None
+
+    def f(self):
+        if self.tt.get_change:
+            self.tt += 1
+        else:
+            self.tt = 0
+
+
+a = Struct(11)
+
+print(a)
+print(a.y)
