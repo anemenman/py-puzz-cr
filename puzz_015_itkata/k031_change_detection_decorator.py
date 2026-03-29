@@ -151,3 +151,15 @@ class Struct:
 
 
 a = Struct(11)
+
+assert a.y == 11
+assert a.y.get_change == 'INIT'
+assert 2 * a.y + 20 == 42
+a.y = 11
+assert a.y.get_change == 'INIT'
+a.y = 12
+assert a.y.get_change == 'MOD'
+a.y = 12
+assert a.y.get_change == 'MOD'
+del a.y
+assert a.y.get_change == 'DEL'
