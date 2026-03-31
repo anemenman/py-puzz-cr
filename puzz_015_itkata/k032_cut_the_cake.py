@@ -279,3 +279,17 @@ def cut(cake):
             best_pieces = pieces
 
     return best_pieces if best_pieces else []
+
+
+cake1 = [
+    "........",
+    "..o.....",
+    "...o....",
+    "........"
+]
+
+result = cut(cake1)
+for piece in result:
+    for row in piece:
+        print(row)
+    print("=========")
