@@ -139,7 +139,8 @@ the result should be []
 """
 
 
-def cut(cake):
+def cut(raw_cake):
+    cake = raw_cake.split('\n')
     if not cake or not cake[0]:
         return []
 
@@ -147,7 +148,7 @@ def cut(cake):
     cols = len(cake[0])
     total_area = rows * cols
 
-    # Найти позиции всех изюминок
+    # Find the position of all raisins
     raisins = []
     for r in range(rows):
         for c in range(cols):
@@ -155,7 +156,7 @@ def cut(cake):
                 raisins.append((r, c))
 
     n = len(raisins)
-    # Проверка базовых условий
+    # Checking the basic conditions
     if n <= 1 or total_area % n != 0:
         return []
 
@@ -164,18 +165,18 @@ def cut(cake):
         return []
 
     def get_rect_cells(r1, c1, r2, c2):
-        """Вернуть список всех ячеек в прямоугольнике [r1,r2] x [c1,c2] включительно"""
+        # Return a list of all cells in the rectangle [r1,r2] x [c1,c2] inclusive
         return [(r, c) for r in range(r1, r2 + 1) for c in range(c1, c2 + 1)]
 
     def count_raisins_in_rect(r1, c1, r2, c2):
-        """Посчитать количество изюминок в прямоугольнике"""
+        # Count the number of raisins in a rectangle
         return sum(1 for rr, cc in raisins if r1 <= rr <= r2 and c1 <= cc <= c2)
 
-    # Предварительно вычислить все валидные прямоугольники для каждой изюминки
+    # Pre-compute all valid rectangles for each raisin
     raisin_rects = {i: [] for i in range(n)}
 
     for i, (rr, cc) in enumerate(raisins):
-        # Перебрать все возможные размеры прямоугольников с нужной площадью
+        # Try all possible sizes of rectangles with the required area
         for h in range(1, rows + 1):
             if target_area % h != 0:
                 continue
@@ -183,92 +184,89 @@ def cut(cake):
             if w < 1 or w > cols:
                 continue
 
-            # Перебрать все позиции для прямоугольника размера h×w
+            # Loop through all positions for a rectangle of size h×w
             for r1 in range(rows - h + 1):
                 r2 = r1 + h - 1
                 for c1 in range(cols - w + 1):
                     c2 = c1 + w - 1
 
-                    # Прямоугольник должен содержать текущую изюминку
+                    # The rectangle must contain the current highlight
                     if not (r1 <= rr <= r2 and c1 <= cc <= c2):
                         continue
-                    # Прямоугольник должен содержать ровно одну изюминку (эту)
+                    # The rectangle must contain exactly one raisin (this one)
                     if count_raisins_in_rect(r1, c1, r2, c2) != 1:
                         continue
 
-                    # Сохранить прямоугольник: координаты и ширину
+                    # Save rectangle: coordinates and width
                     raisin_rects[i].append((r1, c1, r2, c2, w))
 
-        # Если для какой-то изюминки нет валидных прямоугольников — решения нет
+        # If there are no valid rectangles for a particular feature, there is no solution
         if not raisin_rects[i]:
             return []
 
     solutions = []
 
     def backtrack(assigned, covered, current):
-        """
-        assigned: множество индексов изюминок, которым уже назначен прямоугольник
-        covered: множество ячеек, покрытых назначенными прямоугольниками
-        current: список пар (индекс_изюминки, прямоугольник) для текущего решения
-        """
-        # Все изюминки назначены
+        # assigned: the set of indices of raisins that are already assigned a rectangle
+        # covered: the set of cells covered by the assigned rectangles
+        # current: a list of (raisin_index, rectangle) pairs for the current solution
+
+        # All the raisins are assigned
         if len(assigned) == n:
-            # Проверить, покрыт ли весь торт
+            # Check if the whole cake is covered.
             if len(covered) == total_area:
                 solutions.append(list(current))
             return
 
-        # Выбрать следующую неназначенную изюминку
+        # Select the next unassigned raisin
         raisin_idx = next(i for i in range(n) if i not in assigned)
 
-        # Попробовать каждый валидный прямоугольник для этой изюминки
+        # Try every valid rectangle for this raisin
         for rect in raisin_rects[raisin_idx]:
             r1, c1, r2, c2, w = rect
             cells = set(get_rect_cells(r1, c1, r2, c2))
 
-            # Пропустить, если прямоугольник пересекается с уже покрытыми ячейками
+            # Skip if rectangle intersects with already covered cells
             if cells & covered:
                 continue
 
-            # Назначить прямоугольник
+            # Assign a rectangle
             assigned.add(raisin_idx)
             covered |= cells
             current.append((raisin_idx, rect))
 
-            # Рекурсивный вызов
+            # Recursive call
             backtrack(assigned, covered, current)
 
-            # Откат (backtrack)
+            # Backtrack
             current.pop()
             for cell in cells:
                 covered.discard(cell)
             assigned.remove(raisin_idx)
 
-    # Запустить поиск с возвратом
+    # Run a backtracking search
     backtrack(set(), set(), [])
 
     if not solutions:
         return []
 
     def solution_to_pieces(sol):
-        """
-        Преобразовать решение в формат вывода:
-        - Отсортировать куски по позиции левого верхнего угла
-        - Вернуть список кусков и ширину первого куска
-        """
+        # Convert the solution to output format:
+        # - Sort the chunks by the position of the upper-left corner
+        # - Return the list of chunks and the width of the first chunk
         pieces_with_pos = []
         for raisin_idx, (r1, c1, r2, c2, w) in sol:
-            # Извлечь подстроки для этого куска торта
+            # Extract substrings for this piece of cake
             piece = [cake[r][c1:c2 + 1] for r in range(r1, r2 + 1)]
             pieces_with_pos.append((r1, c1, w, piece))
 
-        # Сортировка: сверху вниз, слева направо по левому верхнему углу
+        # Sorting: top to bottom, left to right, top left corner
         pieces_with_pos.sort(key=lambda x: (x[0], x[1]))
         pieces = [p[3] for p in pieces_with_pos]
         first_width = pieces_with_pos[0][2]
         return pieces, first_width
 
-    # Найти лучшее решение: максимальная ширина первого куска
+    # Find the best solution: maximum width of the first piece
     best_pieces = None
     best_width = -1
 
@@ -278,18 +276,8 @@ def cut(cake):
             best_width = first_w
             best_pieces = pieces
 
-    return best_pieces if best_pieces else []
+    result = []
+    for piece in best_pieces:
+        result.append('\n'.join(piece))
 
-
-cake1 = [
-    "........",
-    "..o.....",
-    "...o....",
-    "........"
-]
-
-result = cut(cake1)
-for piece in result:
-    for row in piece:
-        print(row)
-    print("=========")
+    return result if result else []
