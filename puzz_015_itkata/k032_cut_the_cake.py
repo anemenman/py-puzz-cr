@@ -281,3 +281,14 @@ def cut(raw_cake):
         result.append('\n'.join(piece))
 
     return result if result else []
+
+
+cake = '''
+........
+..o.....
+...o....
+........
+'''.strip()
+print(cake)
+result2 = cut(cake)
+print(result2)
