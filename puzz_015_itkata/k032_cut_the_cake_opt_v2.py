@@ -1,3 +1,21 @@
+"""
+This is a classic backtracking problem with dividing an area into rectangles.
+The main challenge here is maintaining priority (maximum width of the first piece) and correctly tracking occupied
+cells.
+
+1) Area: We calculate the area of one piece (total_area / n). All pieces must be rectangular and have the same
+area.
+2) Enumeration: We start from the top-left free cell and try to "fit" all possible rectangles of the given area there.
+3) Width Priority: In the possible_shapes list, we iterate through the width w from largest to smallest. Since the
+algorithm finds the first valid solution, this automatically guarantees that the option with the largest first piece
+width will be selected.
+4) Validation: A rectangle is valid only if it contains exactly one raisin and does not overlap any previously cut
+pieces.
+5) Order: Recursion always searches for the top-leftmost free point, which guarantees the correct order of the pieces
+in the resulting array.
+"""
+
+
 def cut(cake_str):
     cake = cake_str.split('\n')
     height = len(cake)
