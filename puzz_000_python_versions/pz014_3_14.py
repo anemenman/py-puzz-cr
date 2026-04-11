@@ -11,6 +11,7 @@ a new compression.zstd module, syntax highlighting in the REPL, as well as the u
 improvements in user-friendliness and correctness.
 """
 import os
+import sys
 
 """
 PEP 649 & PEP 749: Deferred evaluation of annotations
@@ -153,3 +154,4 @@ Bénédikt Tran, and Pablo Galindo Salgado in gh-132661.)
 """
 
 print(os.path)
+print(sys.version)
