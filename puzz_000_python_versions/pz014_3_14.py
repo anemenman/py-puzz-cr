@@ -10,6 +10,7 @@ The library changes include significantly improved capabilities for introspectio
 a new compression.zstd module, syntax highlighting in the REPL, as well as the usual deprecations and removals, and
 improvements in user-friendliness and correctness.
 """
+import os
 
 """
 PEP 649 & PEP 749: Deferred evaluation of annotations
@@ -150,3 +151,5 @@ string.templatelib: Support for template string literals (t-strings). See PEP 75
 by Jim Baker, Guido van Rossum, Paul Everitt, Koudai Aono, Lysandros Nikolaou, Dave Peck, Adam Turner, Jelle Zijlstra, 
 Bénédikt Tran, and Pablo Galindo Salgado in gh-132661.)
 """
+
+print(os.path)
