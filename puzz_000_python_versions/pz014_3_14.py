@@ -155,3 +155,4 @@ Bénédikt Tran, and Pablo Galindo Salgado in gh-132661.)
 
 print(os.path)
 print(sys.version)
+print(sys.platform)
