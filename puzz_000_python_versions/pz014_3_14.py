@@ -153,6 +153,18 @@ by Jim Baker, Guido van Rossum, Paul Everitt, Koudai Aono, Lysandros Nikolaou, D
 Bénédikt Tran, and Pablo Galindo Salgado in gh-132661.)
 """
 
+print('os.path:')
 print(os.path)
+print('--------------------')
+
+print('sys.version:')
 print(sys.version)
+print('--------------------')
+
+print('sys.version_info:')
+print(sys.version_info)
+print('--------------------')
+
+print('sys.platform:')
 print(sys.platform)
+print('--------------------')
