@@ -168,3 +168,21 @@ print('--------------------')
 print('sys.platform:')
 print(sys.platform)
 print('--------------------')
+
+
+def get_status_message(status_code):
+    match status_code:
+        case 200:
+            return "OK"
+        case 400:
+            return "Bad Request"
+        case 404:
+            return "Not Found"
+        case 500 | 503:  # Можно использовать "или"
+            return "Server Error"
+        case _:  # Аналог default в других языках
+            return "Unknown Status"
+
+
+print(get_status_message(404))  # Вывод: Not Found
+print(get_status_message(503))
