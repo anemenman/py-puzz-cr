@@ -2,6 +2,7 @@
 Найти сумму ряда:
 sum = f(n)/(n * (n + 1))
 где f(n) - количество единиц в двоичном представлении n
+
 """
 from math import log
 
@@ -23,8 +24,8 @@ def series_sum(n):
     return total
 
 
-sum = series_sum(n)
-print(f'sum   = {sum}')
+sum1 = series_sum(n)
+print(f'sum   = {sum1}')
 
 ln_res = log(4)  # ln
 print(f'ln(4) = {ln_res}')
